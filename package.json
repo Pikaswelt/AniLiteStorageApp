@@ -1,0 +1,30 @@
+{
+  "name": "anilite-storage-app",
+  "version": "2.0.0",
+  "description": "AniLite Storage App — Modern High-Speed Storage & App Tracker",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "productName": "AniLite Storage App",
+    "appId": "com.anilite.storage",
+    "icon": "assets/app-icon.ico",
+    "npmRebuild": false,
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "check-disk-space": "^3.4.0",
+    "discord-rpc": "^4.0.1"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "png-to-ico": "^3.0.1"
+  }
+}

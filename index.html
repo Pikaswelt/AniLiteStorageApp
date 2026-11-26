@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniLite Storage</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-backdrop"></div>
+    <div class="bg-vignette"></div>
+
+    <div class="app-shell">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand">
+                    <img id="app-logo-image" class="app-logo-image" alt="AniLite">
+                    <div class="brand-text">
+                        <span class="brand-name">AniLite</span>
+                        <span id="sidebar-version" class="brand-badge">v2.0</span>
+                    </div>
+                </div>
+
+                <nav class="nav-menu">
+                    <button class="nav-item active" id="btn-home" onclick="switchTab('home')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                        <span>Overview</span>
+                    </button>
+                    <button class="nav-item" id="btn-games" onclick="switchTab('games')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4"/><path d="M8 10v4"/><circle cx="16.5" cy="10.5" r="1"/><circle cx="18.5" cy="13" r="1"/></svg>
+                        <span>Games</span>
+                        <span id="nav-games-count" class="nav-pill">0</span>
+                    </button>
+                    <button class="nav-item" id="btn-apps" onclick="switchTab('apps')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span>Apps</span>
+                        <span id="nav-apps-count" class="nav-pill">0</span>
+                    </button>
+                    <button class="nav-item" id="btn-cleanup" onclick="switchTab('cleanup')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                        <span>Cleanup</span>
+                    </button>
+                    <button class="nav-item" id="btn-ai" onclick="switchTab('ai')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+                        <span>AniLite AI</span>
+                    </button>
+                    <button class="nav-item" id="btn-settings" onclick="switchTab('settings')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <span>Settings</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="scan-status-box">
+                    <div class="scan-status-header">
+                        <span class="scan-dot" id="scan-dot"></span>
+                        <span id="sidebar-scan-label">Ready</span>
+                    </div>
+                    <div class="scan-mini-track">
+                        <div class="scan-mini-fill" id="sidebar-scan-bar"></div>
+                    </div>
+                    <button class="rescan-btn" id="rescan-btn" onclick="triggerFullRescan()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        <span>Rescan Now</span>
+                    </button>
+                </div>
+
+                <button class="update-chip" onclick="toggleUpdate()">
+                    <span>Update Installer</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-viewport">
+
+            <!-- OVERVIEW TAB -->
+            <section id="tab-home" class="tab-view active">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Storage Overview</h1>
+                        <p class="page-subtitle">Real-time drive capacity, top space consumers, and quick game access.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="triggerFullRescan()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DRIVES GRID -->
+                <div id="drives-grid" class="drives-grid">
+                    <div class="surface-card skeleton-card">Loading drives...</div>
+                </div>
+
+                <!-- KPI SUMMARY ROW -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <span class="kpi-label">Tracked Apps & Launchers</span>
+                        <span id="kpi-apps-count" class="kpi-value mono">--</span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-label">Detected Games</span>
+                        <span id="kpi-games-count" class="kpi-value mono">--</span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-label">Tracked Footprint</span>
+                        <span id="kpi-tracked-size" class="kpi-value mono accent">--</span>
+                    </div>
+                    <div class="kpi-card clickable" onclick="switchTab('cleanup')">
+                        <span class="kpi-label">Reclaimable Temp</span>
+                        <span id="kpi-temp-size" class="kpi-value mono emerald">--</span>
+                    </div>
+                </div>
+
+                <!-- TWO COLUMN INSIGHTS -->
+                <div class="overview-split">
+                    <div class="surface-card">
+                        <div class="section-header">
+                            <div>
+                                <h2>Top Space Consumers</h2>
+                                <p class="section-sub">Largest installed apps & games on your PC</p>
+                            </div>
+                            <button class="btn-ghost" onclick="switchTab('apps')">View all →</button>
+                        </div>
+                        <div id="top-consumers-list" class="consumers-list">
+                            <p class="muted-text">Calculating sizes...</p>
+                        </div>
+                    </div>
+
+                    <div class="surface-card">
+                        <div class="section-header">
+                            <div>
+                                <h2>Quick Launch Games</h2>
+                                <p class="section-sub">Jump back in or inspect storage</p>
+                            </div>
+                            <button class="btn-ghost" onclick="switchTab('games')">All games →</button>
+                        </div>
+                        <div id="overview-games-grid" class="mini-games-grid">
+                            <p class="muted-text">Scanning libraries...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GAMES TAB -->
+            <section id="tab-games" class="tab-view">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Game Library</h1>
+                        <p class="page-subtitle">Automatically detected across Steam, Epic Games, HoYoPlay, Riot, EA, Ubisoft & Xbox.</p>
+                    </div>
+                </div>
+
+                <div class="surface-card">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input id="games-search" class="search-input" type="text" placeholder="Search games..." oninput="renderGamesGrid()">
+                        </div>
+                        <div id="games-launcher-pills" class="filter-pills"></div>
+                        <select id="games-sort" class="select-input" onchange="renderGamesGrid()">
+                            <option value="size-desc">Largest first</option>
+                            <option value="size-asc">Smallest first</option>
+                            <option value="name-asc">Name A–Z</option>
+                            <option value="name-desc">Name Z–A</option>
+                        </select>
+                    </div>
+
+                    <div id="games-grid" class="games-grid">
+                        <p class="muted-text">Scanning for installed games...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APPS TAB -->
+            <section id="tab-apps" class="tab-view">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Apps & Programs</h1>
+                        <p class="page-subtitle">High-speed parallel size tracking across all installed software.</p>
+                    </div>
+                    <span id="apps-loading-status" class="status-pill">Ready</span>
+                </div>
+
+                <div class="surface-card">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input id="apps-search" class="search-input" type="text" placeholder="Filter by name or path..." oninput="renderAppsList()">
+                        </div>
+
+                        <div class="filter-pills" id="apps-type-pills">
+                            <button class="pill active" data-type="all" onclick="setAppTypeFilter('all', this)">All</button>
+                            <button class="pill" data-type="App" onclick="setAppTypeFilter('App', this)">Apps</button>
+                            <button class="pill" data-type="Game" onclick="setAppTypeFilter('Game', this)">Games</button>
+                            <button class="pill" data-type="Launcher" onclick="setAppTypeFilter('Launcher', this)">Launchers</button>
+                        </div>
+
+                        <select id="apps-sort" class="select-input" onchange="renderAppsList()">
+                            <option value="size-desc">Largest first</option>
+                            <option value="size-asc">Smallest first</option>
+                            <option value="name-asc">Name A–Z</option>
+                            <option value="name-desc">Name Z–A</option>
+                        </select>
+                    </div>
+
+                    <div id="apps-list" class="apps-list">
+                        <p class="muted-text">Scanning for installed apps...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLEANUP TAB -->
+            <section id="tab-cleanup" class="tab-view">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Storage Cleanup</h1>
+                        <p class="page-subtitle">Quickly inspect temporary files, downloads, and your biggest space hogs.</p>
+                    </div>
+                </div>
+
+                <div class="hero-banner">
+                    <div class="hero-banner-overlay">
+                        <span class="hero-tag">AniLite v2.0 Engine</span>
+                        <h2>Smart Storage Analyzer</h2>
+                        <p>Native multi-threaded directory scanning with persistent caching — 20x faster than legacy PowerShell scans.</p>
+                    </div>
+                </div>
+
+                <div id="cleanup-cards" class="cleanup-grid">
+                    <div class="surface-card">Scanning cleanup folders...</div>
+                </div>
+
+                <div class="surface-card" style="margin-top: 20px;">
+                    <div class="section-header">
+                        <div>
+                            <h2>Largest Space Consumers (Top 15)</h2>
+                            <p class="section-sub">Click any item to open its folder or uninstall</p>
+                        </div>
+                    </div>
+                    <div id="cleanup-top-list" class="consumers-list">
+                        <p class="muted-text">Waiting for scan data...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI TAB -->
+            <section id="tab-ai" class="tab-view">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">AniLite AI</h1>
+                        <p class="page-subtitle">Ask Gemini about your drives, largest apps, and safe cleanup strategies.</p>
+                    </div>
+                    <div class="ai-status-group">
+                        <span id="ai-key-status" class="status-pill">Key not set</span>
+                    </div>
+                </div>
+
+                <div class="surface-card ai-container">
+                    <div class="ai-config-bar">
+                        <input id="ai-key-input" class="text-input" type="password" placeholder="Enter Gemini API key...">
+                        <button class="btn-secondary" onclick="saveAiKey()">Save Key</button>
+                        <select id="ai-model-select" class="select-input" onchange="saveAiModel()">
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                            <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+                            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                        </select>
+                    </div>
+
+                    <div class="ai-quick-prompts">
+                        <button class="prompt-chip" onclick="useAiPrompt('Was verbraucht bei mir am meisten Speicherplatz?')">Was braucht am meisten Speicher?</button>
+                        <button class="prompt-chip" onclick="useAiPrompt('Gib mir 5 sichere Tipps, um schnell Speicher freizugeben.')">Sichere Cleanup-Tipps</button>
+                        <button class="prompt-chip" onclick="useAiPrompt('Fasse meine installierten Spiele und Laufwerke kurz zusammen.')">Spiele & Laufwerke zusammenfassen</button>
+                    </div>
+
+                    <div id="ai-chat" class="ai-chat">
+                        <div class="ai-empty-state">
+                            <p>Frag AniLite AI nach deinen Laufwerken, größten Apps oder Aufräum-Ideen.</p>
+                        </div>
+                    </div>
+
+                    <div class="ai-input-bar">
+                        <input id="ai-input" class="text-input" type="text" placeholder="Ask about your storage, apps, or cleanup ideas...">
+                        <button class="btn-primary" id="ai-send-btn" onclick="sendAiMessage()">Send</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS TAB -->
+            <section id="tab-settings" class="tab-view">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">Personalize visuals, backgrounds, and Discord Rich Presence.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="resetVisualSettings()">Reset Default Images</button>
+                        <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                    </div>
+                </div>
+
+                <div class="settings-layout">
+                    <section class="surface-card">
+                        <div class="section-header">
+                            <div>
+                                <h2>Visuals & Backgrounds</h2>
+                                <p class="section-sub">Powered by GPT Image 2.5 Sunburst default artwork</p>
+                            </div>
+                        </div>
+
+                        <div class="image-settings-grid">
+                            <div class="image-setting-card">
+                                <div class="image-preview" id="preview-background"></div>
+                                <div class="image-setting-body">
+                                    <label class="field-label">Main Background</label>
+                                    <div class="input-with-btn">
+                                        <input id="settings-background-path" class="text-input" type="text" placeholder="Default Sunburst Background">
+                                        <button class="btn-secondary" onclick="chooseSettingsImage('backgroundPath', 'settings-background-path')">Browse</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="image-setting-card">
+                                <div class="image-preview" id="preview-accent"></div>
+                                <div class="image-setting-body">
+                                    <label class="field-label">Accent & Banners</label>
+                                    <div class="input-with-btn">
+                                        <input id="settings-accent-path" class="text-input" type="text" placeholder="Default Sunburst Banner">
+                                        <button class="btn-secondary" onclick="chooseSettingsImage('accentPath', 'settings-accent-path')">Browse</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="image-setting-card">
+                                <div class="image-preview" id="preview-overlay"></div>
+                                <div class="image-setting-body">
+                                    <label class="field-label">Modal Overlay</label>
+                                    <div class="input-with-btn">
+                                        <input id="settings-overlay-path" class="text-input" type="text" placeholder="Default Sunburst Overlay">
+                                        <button class="btn-secondary" onclick="chooseSettingsImage('overlayPath', 'settings-overlay-path')">Browse</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="image-setting-card">
+                                <div class="image-preview logo-preview" id="preview-logo"></div>
+                                <div class="image-setting-body">
+                                    <label class="field-label">App Logo</label>
+                                    <div class="input-with-btn">
+                                        <input id="settings-logo-path" class="text-input" type="text" placeholder="Default AniLite Logo">
+                                        <button class="btn-secondary" onclick="chooseSettingsImage('logoPath', 'settings-logo-path')">Browse</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="surface-card">
+                        <div class="section-header">
+                            <div>
+                                <h2>Discord Rich Presence</h2>
+                                <p class="section-sub">Display your AniLite activity on Discord</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input id="rpc-enabled" type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label class="field-label">Client ID</label>
+                                <input id="rpc-client-id" class="text-input" type="text" placeholder="Leave empty for internal default">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">Details</label>
+                                <input id="rpc-details" class="text-input" type="text" placeholder="Managing AniLite Storage">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">State</label>
+                                <input id="rpc-state" class="text-input" type="text" placeholder="Tracking Drives & Apps">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">Large Image Key</label>
+                                <input id="rpc-large-image-key" class="text-input" type="text" placeholder="img1">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">Large Image Text</label>
+                                <input id="rpc-large-image-text" class="text-input" type="text" placeholder="AniLite v2">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">Small Image Key</label>
+                                <input id="rpc-small-image-key" class="text-input" type="text" placeholder="img2">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">Small Image Text</label>
+                                <input id="rpc-small-image-text" class="text-input" type="text" placeholder="Storage Ops">
+                            </div>
+                        </div>
+                        <p id="settings-status" class="status-feedback">Ready.</p>
+                    </section>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- UPDATE MODAL -->
+    <div id="update-screen" class="modal-backdrop hidden" onclick="if(event.target === this) toggleUpdate()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="update-version-title">AniLite v2.0.0</h2>
+                <button class="icon-close" onclick="toggleUpdate()">✕</button>
+            </div>
+            <p id="update-status-text" class="modal-desc">Select a newer .exe installer to update AniLite.</p>
+            <div id="update-file-name" class="path-chip">No update installer selected.</div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chooseUpdateInstaller()">Choose EXE</button>
+                <button class="btn-primary" id="apply-update-btn" onclick="installSelectedUpdate()" disabled>Install Update</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM DETAILS MODAL (Unified for Games & Apps) -->
+    <div id="app-modal" class="modal-backdrop hidden" onclick="if(event.target === this) closeAppModal()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div id="modal-app-icon" class="modal-icon"></div>
+                    <div>
+                        <h2 id="modal-app-name">Item Title</h2>
+                        <div class="modal-badges">
+                            <span class="badge badge-type" id="modal-app-type">App</span>
+                            <span class="badge badge-source" id="modal-app-source">Source</span>
+                            <span class="badge badge-muted hidden" id="modal-app-version"></span>
+                        </div>
+                    </div>
+                </div>
+                <button class="icon-close" onclick="closeAppModal()">✕</button>
+            </div>
+
+            <div class="modal-stat-panel">
+                <div>
+                    <span class="kpi-label">Storage Used</span>
+                    <span id="modal-app-size" class="modal-size-value mono">Calculating...</span>
+                </div>
+                <div id="modal-app-publisher-wrap" class="hidden">
+                    <span class="kpi-label">Publisher</span>
+                    <span id="modal-app-publisher" class="modal-meta-val">--</span>
+                </div>
+            </div>
+
+            <div class="path-chip" id="modal-app-path">C:\Path\to\App</div>
+            <p class="status-feedback" id="modal-app-status">Ready.</p>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="openSelectedItemFolder()">Open Folder</button>
+                <button class="btn-primary hidden" id="app-launch-btn" onclick="launchSelectedAppGame()">Launch Game</button>
+                <button class="btn-danger" id="app-uninstall-btn" onclick="uninstallSelectedApp()">Uninstall</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
